@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src blob: data:; connect-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'">
+<title>Bilder zu PDF – privat & offline</title>
+<style>
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#e8ecf6;background:#0c1220;color-scheme:dark}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 0 0,#1b3150 0,transparent 45%),#0c1220}main{max-width:1050px;margin:auto;padding:44px 20px 70px}.eyebrow{color:#8fe3bf;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.76rem}h1{font-size:clamp(2rem,5vw,3.4rem);letter-spacing:-.04em;margin:.5rem 0}p{color:#b5c1d4;line-height:1.6}header{margin-bottom:28px}.panel{background:#172235;border:1px solid #30415a;border-radius:20px;padding:24px;box-shadow:0 20px 45px #0002}.drop{border:2px dashed #55749a;border-radius:15px;min-height:155px;display:flex;align-items:center;justify-content:center;text-align:center;flex-direction:column;gap:8px;cursor:pointer;padding:20px;background:#1b2a40}.drop.drag{border-color:#85e0b2;background:#234637}.drop strong{font-size:1.1rem}.sub{color:#afc1d8;font-size:.91rem}.button,button{border:0;border-radius:11px;background:#79e2b4;color:#092116;font-size:.94rem;font-weight:750;padding:12px 17px;cursor:pointer}.button:hover,button:hover{filter:brightness(1.08)}button:disabled{opacity:.45;cursor:not-allowed}button.secondary{background:#2c3d56;color:#e3eaf7}input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 0 14px;flex-wrap:wrap}.toolbar h2{margin:0;font-size:1.1rem}.controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin-top:20px}.field label{display:block;font-weight:650;font-size:.88rem;margin-bottom:7px}select,input[type=text]{width:100%;border:1px solid #4d607a;background:#101a2a;color:#edf2fb;border-radius:10px;padding:12px;font:inherit}.hint{color:#a7b9d2;font-size:.78rem;margin-top:6px}.items{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:13px}.item{background:#111b2c;border:1px solid #354660;border-radius:13px;overflow:hidden}.thumb{height:160px;display:flex;justify-content:center;align-items:center;background:#0a1120}.thumb img{max-width:100%;max-height:100%;object-fit:contain}.itembody{padding:12px}.filename{white-space:nowrap;text-overflow:ellipsis;overflow:hidden;font-weight:700;font-size:.85rem}.meta{font-size:.75rem;color:#acbad0;margin:5px 0 11px}.actions{display:flex;gap:5px;flex-wrap:wrap}.actions button{min-width:32px}.camera-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}.camera-tools .hint{margin:0}.thumb img{transition:transform .15s ease}.actions button{flex:1;padding:8px 5px;background:#2d415d;color:white;font-size:.85rem}.actions button.delete{background:#5b303d}.footer-buttons{display:flex;gap:10px;flex-wrap:wrap}.footer{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;border-top:1px solid #30415a;margin-top:24px;padding-top:22px}.status{font-size:.87rem;color:#b8c6db}.notice{margin-top:22px;border:1px solid #355746;background:#142a27;border-radius:14px;padding:15px 20px}.notice p{margin:4px 0}.sr{position:absolute;clip:rect(0,0,0,0);width:1px;height:1px;overflow:hidden}@media(max-width:680px){.controls{grid-template-columns:1fr}.panel{padding:17px}.footer-buttons{width:100%}.footer-buttons button{width:100%}}:focus-visible{outline:3px solid #8fe3bf;outline-offset:3px}
+.crop-dialog{border:1px solid #587091;border-radius:18px;padding:18px;background:#172235;color:#e8ecf6;width:min(94vw,860px);max-height:94vh;overflow:auto}.crop-dialog::backdrop{background:#000c}.crop-dialog h2{margin:0 0 6px}.crop-stage{margin:12px auto;background:#0b1422;display:flex;justify-content:center;align-items:center;min-height:130px;touch-action:none}.crop-stage canvas{max-width:100%;height:auto;touch-action:none;cursor:crosshair;display:block}.crop-dialog .footer-buttons{justify-content:flex-end;margin-top:14px}.crop-dialog .hint{margin:8px 0}.actions button.crop-action{flex-basis:100%;background:#315b68}.thumb canvas{max-width:100%;max-height:100%;object-fit:contain}.thumb{overflow:hidden} @media(max-width:680px){.crop-dialog .footer-buttons button{width:auto}}
+</style>
+</head>
+<body>
+<main>
+<header><div class="eyebrow">100 % lokal · Keine Uploads · Keine Fremdbibliotheken</div><h1>Bilder in PDF umwandeln</h1><p>Füge Fotos und Grafiken zu einer einzigen PDF zusammen. Reihenfolge, Papierformat und Bildqualität bestimmst du – deine Dateien bleiben auf deinem Gerät.</p></header>
+<section class="panel" aria-label="PDF erstellen">
+<label for="files" class="drop" id="drop"><strong>📷 Bilder hier ablegen oder auswählen</strong><span class="sub">JPEG, PNG, WebP, GIF (erstes Bild), BMP oder andere vom Browser unterstützte Bildformate</span><span class="button" aria-hidden="true">Bilder auswählen</span></label>
+<input type="file" id="files" multiple accept="image/*" aria-label="Bilder auswählen">
+<div class="camera-tools"><button id="cameraButton" type="button" class="secondary">📸 Foto mit Kamera aufnehmen</button><span class="hint">Auf Smartphones öffnet sich die Kamera, sofern vom Gerät unterstützt. Fotos werden direkt als neue Seiten hinzugefügt.</span></div>
+<input type="file" id="camera" accept="image/*" capture="environment" aria-label="Foto mit Kamera aufnehmen">
+<div class="toolbar"><h2 id="count">Noch keine Bilder</h2><button class="secondary" id="clear" type="button" disabled>Alle entfernen</button></div>
+<div id="items" class="items" aria-live="polite"></div>
+<div class="controls">
+<div class="field"><label for="page">Seitenformat</label><select id="page"><option value="a4">A4 (210 × 297 mm)</option><option value="letter">US Letter</option><option value="fit">An Bildgröße anpassen</option></select></div>
+<div class="field"><label for="orientation">Ausrichtung</label><select id="orientation"><option value="auto">Automatisch</option><option value="portrait">Hochformat</option><option value="landscape">Querformat</option></select></div>
+<div class="field"><label for="quality">Bildqualität / PDF-Größe</label><select id="quality"><option value="0.92">Hoch</option><option value="0.78" selected>Ausgewogen</option><option value="0.56">Kleine Datei</option><option value="0.35">Sehr kleine Datei</option></select><div class="hint">Bilder werden lokal als JPEG eingebettet.</div></div>
+<div class="field"><label for="margin">Seitenrand</label><select id="margin"><option value="0">Kein Rand</option><option value="28" selected>Schmal (ca. 10 mm)</option><option value="57">Breit (ca. 20 mm)</option></select></div>
+<div class="field"><label for="filename">Dateiname</label><input id="filename" type="text" value="Meine-Bilder" maxlength="120" autocomplete="off"></div>
+</div>
+<div class="footer"><div class="status" id="status" role="status">Die PDF wird beim Herunterladen oder Teilen automatisch erstellt.</div><div class="footer-buttons"><button id="generate" type="button" disabled>PDF erstellen & herunterladen</button><button id="share" type="button" class="secondary" disabled>✉ PDF per E-Mail senden</button></div></div><p class="hint">Mit „PDF per E-Mail senden“ wird die PDF automatisch erstellt und direkt an die Teilen-Funktion übergeben – ohne vorherigen Download. Wähle dort deine E-Mail-App. Es werden weder Betreff noch Nachrichtentext eingefügt. Das Teilen von Dateien ist browserabhängig.</p>
+</section>
+<aside class="notice"><strong>🔒 Datenschutz durch lokale Verarbeitung</strong><p>Diese App hat keine Serverkommunikation, keine Cookies, keine Analyse- oder Trackingdienste und lädt keine externen Skripte, Schriftarten oder Bibliotheken. Bilder und PDF werden ausschließlich im Arbeitsspeicher deines Browsers verarbeitet. Nur wenn du die Teilen-Funktion aufrufst und eine App auswählst, wird die PDF an diese App übergeben; beim tatsächlichen E-Mail-Versand überträgt dein E-Mail-Anbieter die Datei an den Empfänger. Das ist datenschutzfreundlich; beim Veröffentlichen der Website können dennoch gesonderte Pflichten (etwa zu Hosting-Protokollen und Datenschutzhinweisen) gelten.</p></aside>
+</main>
+<dialog id="cropDialog" class="crop-dialog" aria-labelledby="cropTitle"><h2 id="cropTitle">Bild zuschneiden</h2><p class="hint">Mit Finger oder Maus ein Rechteck über den gewünschten Bildbereich ziehen. Der Ausschnitt wird vor der Drehung angewendet.</p><div class="crop-stage"><canvas id="cropCanvas" aria-label="Bildvorschau mit Auswahlrahmen"></canvas></div><div class="footer-buttons"><button type="button" id="cropReset" class="secondary">Zuschnitt zurücksetzen</button><button type="button" id="cropCancel" class="secondary">Abbrechen</button><button type="button" id="cropApply">Ausschnitt übernehmen</button></div></dialog>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const images=[];let busy=false;let preparedPdf=null;let preparedName="";let cropSession=null;
+function invalidatePdf(){preparedPdf=null;preparedName="";}
+function getPdfName(){let name=$('filename').value.trim().replace(/[\\/:*?"<>|\x00-\x1f]/g,'-')||'Meine-Bilder';return name.toLowerCase().endsWith('.pdf')?name:name+'.pdf';}
+const encoder=new TextEncoder();
+function message(t){$('status').textContent=t;}
+function refresh(){
+ $('count').textContent=images.length===0?'Noch keine Bilder':images.length+' Bild'+(images.length===1?'':'er');
+ $('clear').disabled=$('generate').disabled=busy||images.length===0;
+ $('share').disabled=busy||images.length===0;
+ $('cameraButton').disabled=busy;
+ const container=$('items');container.replaceChildren();
+ images.forEach((item,i)=>{
+  const card=document.createElement('article');card.className='item';
+  const thumb=document.createElement('div');thumb.className='thumb';const img=document.createElement('img');img.src=item.url;img.alt='Vorschau: '+item.name;img.style.transform='rotate('+item.rotation+'deg)'+(item.rotation%180?' scale(.77)':'');thumb.append(img);if(item.crop){previewItem(item,thumb);}
+  const body=document.createElement('div');body.className='itembody';const name=document.createElement('div');name.className='filename';name.textContent=item.name;name.title=item.name;
+  const meta=document.createElement('div');meta.className='meta';meta.textContent=(i+1)+'. Seite · '+formatBytes(item.file.size)+(item.rotation?' · '+item.rotation+'° gedreht':'')+(item.crop?' · zugeschnitten':'');
+  const actions=document.createElement('div');actions.className='actions';
+  for(const [label,offset,klass] of [['↑',-1,''],['↓',1,''],['✕',0,'delete']]){
+   const btn=document.createElement('button');btn.type='button';btn.textContent=label;btn.className=klass;btn.title=klass?'Bild entfernen':offset<0?'Nach links verschieben':'Nach rechts verschieben';btn.setAttribute('aria-label',btn.title+' – '+item.name);btn.disabled=busy||(!klass&&(i+offset<0||i+offset>=images.length));
+   btn.onclick=()=>{if(busy)return;invalidatePdf();if(klass){URL.revokeObjectURL(item.url);images.splice(i,1);}else{[images[i],images[i+offset]]=[images[i+offset],images[i]];}refresh();};actions.append(btn);
+  }
+  for(const [label,angle,title] of [['↶',-90,'90° nach links drehen'],['↷',90,'90° nach rechts drehen']]){
+   const btn=document.createElement('button');btn.type='button';btn.textContent=label;btn.title=title;btn.setAttribute('aria-label',title+' – Seite '+(i+1));btn.disabled=busy;
+   btn.onclick=()=>{if(busy)return;item.rotation=(item.rotation+angle+360)%360;invalidatePdf();message('Seite '+(i+1)+' gedreht.');refresh();};actions.append(btn);
+  }
+  const cropBtn=document.createElement('button');cropBtn.type='button';cropBtn.className='crop-action';cropBtn.textContent='✂ Zuschneiden';cropBtn.disabled=busy;cropBtn.onclick=()=>openCrop(item);actions.append(cropBtn);
+  body.append(name,meta,actions);card.append(thumb,body);container.append(card);
+ });
+}
+function formatBytes(n){return n<1048576?(n/1024).toFixed(0)+' KB':(n/1048576).toFixed(2)+' MB';}
+function addFiles(files){if(busy)return;let added=0;for(const f of files){if(f.type.startsWith('image/')){images.push({file:f,name:f.name||'Kamerafoto.jpg',url:URL.createObjectURL(f),rotation:0,crop:null});added++;}}
+ if(added)invalidatePdf();message(added?added+' Bild(er) hinzugefügt.':'Keine unterstützten Bilddateien gefunden.');refresh();}
+$('files').addEventListener('change',e=>{addFiles(e.target.files);e.target.value='';});
+$('cameraButton').onclick=()=>{if(!busy)$('camera').click();};
+$('camera').addEventListener('change',e=>{addFiles(e.target.files);e.target.value='';});
+const drop=$('drop');drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('drag');});drop.addEventListener('dragleave',()=>drop.classList.remove('drag'));
+drop.addEventListener('drop',e=>{e.preventDefault();drop.classList.remove('drag');addFiles(e.dataTransfer.files);});
+$('clear').onclick=()=>{if(busy)return;invalidatePdf();images.forEach(i=>URL.revokeObjectURL(i.url));images.length=0;message('Alle Bilder entfernt.');refresh();};
+// A small, self-contained PDF 1.4 writer: one JPEG XObject and one page per image.
+// No PDF generation library or network API is used.
+function makePdf(pages){const chunks=[];const offsets=[0];let pos=0;function put(v){const data=typeof v==='string'?encoder.encode(v):v;chunks.push(data);pos+=data.byteLength;}function object(id,parts){offsets[id]=pos;put(id+' 0 obj\n');for(const p of parts)put(p);put('\nendobj\n');}
+ put('%PDF-1.4\n%\xE2\xE3\xCF\xD3\n');const kids=[];
+ pages.forEach((p,i)=>{const page=3+i*3,img=page+1,content=page+2;kids.push(page+' 0 R');const {w,h,iw,ih,x,y,dw,dh,jpeg}=p;
+  object(page,['<< /Type /Page /Parent 2 0 R /MediaBox [0 0 '+n(w)+' '+n(h)+'] /Resources << /XObject << /Im0 '+img+' 0 R >> >> /Contents '+content+' 0 R >>']);
+  object(img,['<< /Type /XObject /Subtype /Image /Width '+iw+' /Height '+ih+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+jpeg.length+' >>\nstream\n',jpeg,'\nendstream']);
+  const cmd='q\n'+n(dw)+' 0 0 '+n(dh)+' '+n(x)+' '+n(y)+' cm\n/Im0 Do\nQ\n';
+  object(content,['<< /Length '+encoder.encode(cmd).length+' >>\nstream\n',cmd,'endstream']);
+ });
+ object(2,['<< /Type /Pages /Kids ['+kids.join(' ')+'] /Count '+pages.length+' >>']);
+ object(1,['<< /Type /Catalog /Pages 2 0 R >>']);
+ const start=pos;const count=3+pages.length*3;put('xref\n0 '+count+'\n0000000000 65535 f \n');for(let i=1;i<count;i++)put(String(offsets[i]).padStart(10,'0')+' 00000 n \n');
+ put('trailer\n<< /Size '+count+' /Root 1 0 R >>\nstartxref\n'+start+'\n%%EOF');return new Blob(chunks,{type:'application/pdf'});
+}
+function n(v){return (Math.round(v*1000)/1000).toString();}
+function loadBitmap(file){return new Promise((resolve,reject)=>{const url=URL.createObjectURL(file);const image=new Image();image.onload=()=>{URL.revokeObjectURL(url);resolve(image);};image.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Bild kann nicht gelesen werden: '+file.name));};image.src=url;});}
+function blobBytes(blob){return blob.arrayBuffer().then(x=>new Uint8Array(x));}
+function currentCrop(item){return item.crop||{x:0,y:0,w:1,h:1};}
+async function previewItem(item,thumb){
+ try{const b=await loadBitmap(item.file);if(!thumb.isConnected)return;const r=currentCrop(item);
+  const c=document.createElement('canvas');const max=300,scale=Math.min(1,max/Math.max(b.naturalWidth*r.w,b.naturalHeight*r.h));c.width=Math.max(1,Math.round(b.naturalWidth*r.w*scale));c.height=Math.max(1,Math.round(b.naturalHeight*r.h*scale));
+  const cx=c.getContext('2d');cx.drawImage(b,r.x*b.naturalWidth,r.y*b.naturalHeight,r.w*b.naturalWidth,r.h*b.naturalHeight,0,0,c.width,c.height);
+  c.style.transform='rotate('+item.rotation+'deg)'+(item.rotation%180?' scale(.77)':'');thumb.replaceChildren(c);
+ }catch(e){console.warn('Vorschau fehlgeschlagen:',e);}
+}
+async function buildPage(item){const bitmap=await loadBitmap(item.file);const origW=bitmap.naturalWidth,origH=bitmap.naturalHeight;
+ if(!origW||!origH)throw Error('Ungültige Bildabmessungen: '+item.name);
+ const crop=currentCrop(item),sx=crop.x*origW,sy=crop.y*origH,sw=crop.w*origW,sh=crop.h*origH;
+ const turn=item.rotation||0,swap=turn===90||turn===270;
+ const maxEdge=2800,scale=Math.min(1,maxEdge/Math.max(sw,sh));const sourceW=Math.max(1,Math.round(sw*scale)),sourceH=Math.max(1,Math.round(sh*scale));
+ const iw=swap?sourceH:sourceW,ih=swap?sourceW:sourceH;
+ const canvas=document.createElement('canvas');canvas.width=iw;canvas.height=ih;const ctx=canvas.getContext('2d',{alpha:false});if(!ctx)throw Error('Canvas wird nicht unterstützt.');ctx.fillStyle='#fff';ctx.fillRect(0,0,iw,ih);
+ ctx.translate(iw/2,ih/2);ctx.rotate(turn*Math.PI/180);ctx.drawImage(bitmap,sx,sy,sw,sh,-sourceW/2,-sourceH/2,sourceW,sourceH);
+ const jpegBlob=await new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(Error('Bildkonvertierung fehlgeschlagen.')),'image/jpeg',Number($('quality').value)));
+ canvas.width=canvas.height=0;
+ const pageType=$('page').value,orientation=$('orientation').value;let w,h;
+ if(pageType==='fit'){const ptPerPx=0.75;w=iw*ptPerPx;h=ih*ptPerPx;}else{[w,h]=pageType==='a4'?[595.28,841.89]:[612,792];}
+ const landscape=orientation==='landscape'||(orientation==='auto'&&iw>ih);if(pageType!=='fit'&&landscape!== (w>h)) [w,h]=[h,w];
+ if(pageType==='fit'){const maxPt=14400;const factor=Math.min(1,maxPt/Math.max(w,h));w*=factor;h*=factor;}
+ const margin=Math.min(Number($('margin').value),w*.3,h*.3);const ratio=Math.min((w-2*margin)/iw,(h-2*margin)/ih);const dw=iw*ratio,dh=ih*ratio;
+ return {w,h,iw,ih,x:(w-dw)/2,y:(h-dh)/2,dw,dh,jpeg:await blobBytes(jpegBlob)};
+}
+// Interactive crop editor, in original-image coordinates; works with touch and mouse.
+const cropCanvas=$('cropCanvas'),cropCtx=cropCanvas.getContext('2d');
+function paintCrop(){if(!cropSession)return;const {bitmap}=cropSession,c=cropCanvas,r=cropSession.rect;
+ cropCtx.clearRect(0,0,c.width,c.height);cropCtx.drawImage(bitmap,0,0,c.width,c.height);
+ const x=r.x*c.width,y=r.y*c.height,w=r.w*c.width,h=r.h*c.height;
+ cropCtx.fillStyle='rgba(0,0,0,.48)';cropCtx.fillRect(0,0,c.width,y);cropCtx.fillRect(0,y,x,h);cropCtx.fillRect(x+w,y,c.width-x-w,h);cropCtx.fillRect(0,y+h,c.width,c.height-y-h);
+ cropCtx.strokeStyle='#79e2b4';cropCtx.lineWidth=3;cropCtx.strokeRect(x,y,w,h);
+ for(const [px,py] of [[x,y],[x+w,y],[x,y+h],[x+w,y+h]]){cropCtx.fillStyle='#79e2b4';cropCtx.fillRect(px-5,py-5,10,10);}
+}
+async function openCrop(item){if(busy)return;try{const b=await loadBitmap(item.file);if(busy)return;const scale=Math.min(1,900/Math.max(b.naturalWidth,b.naturalHeight));
+ cropCanvas.width=Math.max(1,Math.round(b.naturalWidth*scale));cropCanvas.height=Math.max(1,Math.round(b.naturalHeight*scale));
+ cropSession={item,bitmap:b,rect:{...(item.crop||{x:0,y:0,w:1,h:1})},start:null};paintCrop();$('cropDialog').showModal();
+ }catch(e){message('Bild konnte nicht geöffnet werden: '+e.message);}}
+function cropPoint(e){const r=cropCanvas.getBoundingClientRect();return{x:Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),y:Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))};}
+cropCanvas.addEventListener('pointerdown',e=>{if(!cropSession)return;e.preventDefault();cropCanvas.setPointerCapture(e.pointerId);cropSession.start=cropPoint(e);cropSession.rect={x:cropSession.start.x,y:cropSession.start.y,w:0,h:0};paintCrop();});
+cropCanvas.addEventListener('pointermove',e=>{if(!cropSession?.start)return;const p=cropPoint(e),a=cropSession.start;cropSession.rect={x:Math.min(a.x,p.x),y:Math.min(a.y,p.y),w:Math.abs(p.x-a.x),h:Math.abs(p.y-a.y)};paintCrop();});
+function endCrop(e){if(!cropSession?.start)return;const a=cropSession.start,p=cropPoint(e),r={x:Math.min(a.x,p.x),y:Math.min(a.y,p.y),w:Math.abs(a.x-p.x),h:Math.abs(a.y-p.y)};cropSession.rect=r.w>.01&&r.h>.01?r:{x:0,y:0,w:1,h:1};cropSession.start=null;paintCrop();}
+cropCanvas.addEventListener('pointerup',endCrop);cropCanvas.addEventListener('pointercancel',()=>{if(cropSession){cropSession.start=null;paintCrop();}});
+function closeCrop(){cropSession=null;$('cropDialog').close();}
+$('cropCancel').onclick=closeCrop;
+$('cropReset').onclick=()=>{if(!cropSession)return;cropSession.rect={x:0,y:0,w:1,h:1};paintCrop();};
+$('cropApply').onclick=()=>{if(!cropSession)return;const {item,rect}=cropSession;item.crop=(rect.x===0&&rect.y===0&&rect.w===1&&rect.h===1)?null:{...rect};invalidatePdf();closeCrop();message(item.crop?'Zuschnitt übernommen.':'Manueller Zuschnitt zurückgesetzt.');refresh();};
+$('cropDialog').addEventListener('cancel',()=>{cropSession=null;});
+for(const id of ['page','orientation','quality','margin','filename'])$(id).addEventListener('input',()=>{invalidatePdf();refresh();});
+async function preparePdf(){
+ if(preparedPdf)return preparedPdf;
+ const pages=[];
+ for(let i=0;i<images.length;i++){
+  message('Verarbeite Bild '+(i+1)+' von '+images.length+' …');
+  pages.push(await buildPage(images[i]));
+ }
+ message('Erzeuge PDF …');
+ preparedPdf=makePdf(pages);
+ preparedName=getPdfName();
+ return preparedPdf;
+}
+$('generate').onclick=async()=>{
+ if(busy||!images.length)return;
+ busy=true;refresh();
+ try{
+  const pdf=await preparePdf();
+  const url=URL.createObjectURL(pdf);
+  const link=document.createElement('a');link.href=url;link.download=preparedName;
+  document.body.append(link);link.click();link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),60000);
+  message('Fertig: '+images.length+' Seiten · '+formatBytes(pdf.size)+' · PDF zum Herunterladen bereitgestellt.');
+ }catch(error){invalidatePdf();console.error(error);message('Fehler: '+(error.message||'PDF konnte nicht erzeugt werden.'));}
+ finally{busy=false;refresh();}
+};
+$('share').onclick=async()=>{
+ if(busy||!images.length)return;
+ if(typeof navigator.share!=='function'||typeof navigator.canShare!=='function'){
+  message('Dieser Browser unterstützt das Teilen von PDF-Dateien nicht. Du kannst die PDF herunterladen und manuell als E-Mail-Anhang versenden.');return;
+ }
+ busy=true;refresh();
+ try{
+  // PDF automatisch im Arbeitsspeicher erstellen, ohne einen Download auszulösen.
+  const pdf=await preparePdf();
+  const file=new File([pdf],preparedName,{type:'application/pdf'});
+  if(!navigator.canShare({files:[file]})){
+   message('Dieser Browser kann PDF-Dateien nicht direkt teilen. Bitte die PDF herunterladen und manuell anhängen.');return;
+  }
+  // Nur die PDF-Datei übergeben: kein Betreff, Titel oder Nachrichtentext.
+  await navigator.share({files:[file]});
+  message('PDF an die Teilen-Funktion übergeben. Wähle deine E-Mail-App für den Versand.');
+ }catch(error){
+  if(error.name==='AbortError')message('Teilen abgebrochen.');
+  else if(error.name==='NotAllowedError')message('Der Browser hat die Teilen-Funktion blockiert (eventuell wegen der PDF-Erstellung vor dem Teilen). Bitte erneut auf „PDF per E-Mail senden“ klicken; die PDF ist bereits vorbereitet.');
+  else{console.error(error);message('Teilen nicht möglich: '+(error.message||'Bitte PDF herunterladen und manuell anhängen.'));}
+ }finally{busy=false;refresh();}
+};
+refresh();
+</script>
+</body>
+</html>
